@@ -77,7 +77,7 @@ export default function ClientDashboardPage() {
             ) : (
               <div className="text-center py-8">
                 <FileText className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-                <p className="text-sm text-gray-500 mb-4">You haven't posted any ads yet.</p>
+                <p className="text-sm text-gray-500 mb-4">You haven&apos;t posted any ads yet.</p>
                 <Link href="/dashboard/ads/new">
                   <Button size="sm" leftIcon={<PlusCircle className="w-4 h-4" />}>Post Your First Ad</Button>
                 </Link>

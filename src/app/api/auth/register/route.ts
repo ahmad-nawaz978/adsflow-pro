@@ -12,6 +12,7 @@ import { registerSchema } from '@/schemas/authSchema'
 import { supabaseServer } from '@/lib/supabase/server'
 import { hashPassword, signToken } from '@/lib/auth'
 import { err } from '@/lib/apiHelpers'
+import type { Role } from '@/types'
 
 export async function POST(request: NextRequest) {
   try {
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
     })
 
     // ── Sign JWT ──
-    const token = signToken(user)
+    const token = signToken({ ...user, role: user.role as Role })
 
     // ── Set HttpOnly cookie ──
     const response = NextResponse.json({

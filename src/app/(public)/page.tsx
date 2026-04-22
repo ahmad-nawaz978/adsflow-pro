@@ -50,7 +50,7 @@ export default async function HomePage() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm mb-6">
             <Zap className="w-3.5 h-3.5" />
-            Pakistan's #1 Moderated Ad Marketplace
+            Pakistan&apos;s #1 Moderated Ad Marketplace
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
             Sell Faster with<br />

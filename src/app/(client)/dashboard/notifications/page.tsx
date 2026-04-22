@@ -102,7 +102,7 @@ export default function NotificationsPage() {
           <Card className="text-center py-16">
             <Bell className="w-12 h-12 text-gray-200 mx-auto mb-4" />
             <h3 className="font-semibold text-gray-700">No notifications yet</h3>
-            <p className="text-sm text-gray-400 mt-1">We'll notify you when something happens with your ads.</p>
+            <p className="text-sm text-gray-400 mt-1">We&apos;ll notify you when something happens with your ads.</p>
           </Card>
         ) : (
           <div className="space-y-2">

@@ -54,9 +54,9 @@ export async function GET(request: NextRequest) {
 
     const typedAds = ads as AdRow[]
     const adIds     = typedAds.map((a) => a.id)
-    const userIds   = [...new Set(typedAds.map((a) => a.user_id).filter(Boolean))]
-    const catIds    = [...new Set(typedAds.map((a) => a.category_id).filter(Boolean))]
-    const cityIds   = [...new Set(typedAds.map((a) => a.city_id).filter(Boolean))]
+    const userIds   = Array.from(new Set(typedAds.map((a) => a.user_id).filter(Boolean)))
+    const catIds    = Array.from(new Set(typedAds.map((a) => a.category_id).filter(Boolean)))
+    const cityIds   = Array.from(new Set(typedAds.map((a) => a.city_id).filter(Boolean)))
 
     const [mediaRes, usersRes, catsRes, citiesRes] = await Promise.all([
       supabaseServer.from('ad_media').select('ad_id, source_type, original_url, thumbnail_url, validation_status').in('ad_id', adIds),
@@ -66,14 +66,16 @@ export async function GET(request: NextRequest) {
     ])
 
     const mediaMap: Record<string, unknown[]> = {}
-    ;(mediaRes.data ?? []).forEach((m: { ad_id: string }) => {
-      if (!mediaMap[m.ad_id]) mediaMap[m.ad_id] = []
-      mediaMap[m.ad_id].push(m)
+    ;(mediaRes.data ?? []).forEach((m) => {
+      if (m.ad_id) {
+        if (!mediaMap[m.ad_id]) mediaMap[m.ad_id] = []
+        mediaMap[m.ad_id].push(m)
+      }
     })
 
-    const usersMap = Object.fromEntries((usersRes.data ?? []).map((u: { id: string }) => [u.id, u]))
-    const catsMap  = Object.fromEntries((catsRes.data ?? []).map((c: { id: string }) => [c.id, c]))
-    const citiesMap = Object.fromEntries((citiesRes.data ?? []).map((c: { id: string }) => [c.id, c]))
+    const usersMap = Object.fromEntries((usersRes.data ?? []).filter(u => u.id).map(u => [u.id!, u]))
+    const catsMap  = Object.fromEntries((catsRes.data ?? []).filter(c => c.id).map(c => [c.id!, c]))
+    const citiesMap = Object.fromEntries((citiesRes.data ?? []).filter(c => c.id).map(c => [c.id!, c]))
 
     const enriched = typedAds.map((ad) => ({
       ...ad,

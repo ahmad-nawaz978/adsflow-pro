@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     // Monthly revenue (last 6 months)
     const monthlyMap: Record<string, number> = {}
     verifiedPayments.forEach((p) => {
-      const month = new Date(p.created_at).toISOString().slice(0, 7) // YYYY-MM
+      const month = new Date(p.created_at!).toISOString().slice(0, 7) // YYYY-MM
       monthlyMap[month] = (monthlyMap[month] ?? 0) + (p.amount ?? 0)
     })
 

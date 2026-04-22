@@ -16,7 +16,7 @@ export default function ContactPage() {
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-3">Contact Support</h1>
-        <p className="text-gray-500 mb-10">We're here to help. Reach out via any of the channels below.</p>
+        <p className="text-gray-500 mb-10">We&apos;re here to help. Reach out via any of the channels below.</p>
         <div className="grid sm:grid-cols-2 gap-6">
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
             <Mail className="w-8 h-8 text-brand-600 mx-auto mb-3" />

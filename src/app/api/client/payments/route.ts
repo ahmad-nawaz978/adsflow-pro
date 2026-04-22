@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     if (error) throw error
 
     const paymentList = (data ?? []) as Array<{ ad_id: string; [key: string]: unknown }>
-    const adIds = [...new Set(paymentList.map((p) => p.ad_id).filter(Boolean))]
+    const adIds = Array.from(new Set(paymentList.map((p) => p.ad_id).filter(Boolean)))
     let adsMap: Record<string, unknown> = {}
 
     if (adIds.length > 0) {

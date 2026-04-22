@@ -59,10 +59,10 @@ export async function GET(request: NextRequest) {
     const typedAds = ads as AdRow[]
 
     const adIds      = typedAds.map((a) => a.id)
-    const categoryIds = [...new Set(typedAds.map((a) => a.category_id).filter(Boolean))]
-    const cityIds     = [...new Set(typedAds.map((a) => a.city_id).filter(Boolean))]
-    const packageIds  = [...new Set(typedAds.map((a) => a.package_id).filter(Boolean))]
-    const userIds     = [...new Set(typedAds.map((a) => a.user_id).filter(Boolean))]
+    const categoryIds = Array.from(new Set(typedAds.map((a) => a.category_id).filter(Boolean)))
+    const cityIds     = Array.from(new Set(typedAds.map((a) => a.city_id).filter(Boolean)))
+    const packageIds  = Array.from(new Set(typedAds.map((a) => a.package_id).filter(Boolean)))
+    const userIds     = Array.from(new Set(typedAds.map((a) => a.user_id).filter(Boolean)))
 
     const [mediaRes, categoriesRes, citiesRes, packagesRes, sellersRes] = await Promise.all([
       supabaseServer.from('ad_media').select('ad_id, source_type, thumbnail_url, original_url').in('ad_id', adIds),
@@ -73,15 +73,17 @@ export async function GET(request: NextRequest) {
     ])
 
     const mediaMap: Record<string, unknown[]> = {}
-    ;(mediaRes.data ?? []).forEach((m: { ad_id: string }) => {
-      if (!mediaMap[m.ad_id]) mediaMap[m.ad_id] = []
-      mediaMap[m.ad_id].push(m)
+    ;(mediaRes.data ?? []).forEach((m) => {
+      if (m.ad_id) {
+        if (!mediaMap[m.ad_id]) mediaMap[m.ad_id] = []
+        mediaMap[m.ad_id].push(m)
+      }
     })
 
-    const categoriesMap = Object.fromEntries((categoriesRes.data ?? []).map((c: { id: string }) => [c.id, c]))
-    const citiesMap     = Object.fromEntries((citiesRes.data ?? []).map((c: { id: string }) => [c.id, c]))
-    const packagesMap   = Object.fromEntries((packagesRes.data ?? []).map((p: { id: string }) => [p.id, p]))
-    const sellersMap    = Object.fromEntries((sellersRes.data ?? []).map((s: { user_id: string }) => [s.user_id, s]))
+    const categoriesMap = Object.fromEntries((categoriesRes.data ?? []).filter(c => c.id).map(c => [c.id!, c]))
+    const citiesMap     = Object.fromEntries((citiesRes.data ?? []).filter(c => c.id).map(c => [c.id!, c]))
+    const packagesMap   = Object.fromEntries((packagesRes.data ?? []).filter(p => p.id).map(p => [p.id!, p]))
+    const sellersMap    = Object.fromEntries((sellersRes.data ?? []).filter(s => s.user_id).map(s => [s.user_id!, s]))
 
     let enriched = typedAds.map((ad) => ({
       ...ad,

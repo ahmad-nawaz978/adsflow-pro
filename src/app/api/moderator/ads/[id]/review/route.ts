@@ -65,7 +65,7 @@ export async function PATCH(
 
     // Notify the ad owner
     await sendNotification({
-      user_id: ad.user_id,
+      user_id: ad.user_id!,
       title: action === 'approve' ? 'Ad approved — please submit payment' : 'Ad content rejected',
       message: action === 'approve'
         ? `Your ad "${ad.title}" passed content review. Please submit payment to proceed.`

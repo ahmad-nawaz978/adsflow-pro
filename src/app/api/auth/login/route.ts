@@ -12,6 +12,7 @@ import { loginSchema } from '@/schemas/authSchema'
 import { supabaseServer } from '@/lib/supabase/server'
 import { comparePassword, signToken } from '@/lib/auth'
 import { err } from '@/lib/apiHelpers'
+import type { Role } from '@/types'
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Build safe user object (no password) ──
-    const safeUser = { id: user.id, name: user.name, email: user.email, role: user.role }
+    const safeUser = { id: user.id, name: user.name, email: user.email, role: user.role as Role }
 
     // ── Sign JWT ──
     const token = signToken(safeUser)

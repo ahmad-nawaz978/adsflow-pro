@@ -75,7 +75,7 @@ export async function PATCH(
     })
 
     await sendNotification({
-      user_id: ad.user_id,
+      user_id: ad.user_id!,
       title: action === 'verify' ? 'Payment verified!' : 'Payment rejected',
       message: action === 'verify'
         ? `Your payment for "${ad.title}" has been verified. Your ad will be published shortly.`
