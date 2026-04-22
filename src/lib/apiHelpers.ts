@@ -55,7 +55,7 @@ export async function writeAuditLog(params: {
   new_value?: Record<string, unknown> | null
 }) {
   try {
-    await supabaseServer.from('audit_logs').insert(params)
+    await supabaseServer.from('audit_logs').insert(params as any) // JSONB columns accept arbitrary objects
   } catch {
     // Audit log failure should not break the main operation
   }
